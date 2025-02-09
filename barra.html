@@ -98,6 +98,78 @@
             background-color: #d32f2f;
             transform: scale(1.05);
         }
+
+
+        /* Estilos específicos para teléfonos móviles */
+        @media (max-width: 768px) {
+            .section-title {
+                font-size: 1.8em;
+                padding: 15px;
+            }
+
+            .menu-nav {
+                padding: 10px;
+                bottom: 10px;
+            }
+
+            .menu-nav a {
+                padding: 6px 12px;
+                font-size: 12px;
+            }
+
+            [class*="-container"] {
+                min-height: 102vh;
+                background-size: 100%; /* Aumentado el ancho en un 20% */
+                background-position: center center; /* Centrado mejorado */
+                background-attachment: scroll;
+                overflow-y: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            .section {
+                position: relative;
+            }
+
+            .section::after {
+                content: "";
+                display: block;
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(0, 0, 0, 0.5);
+                z-index: 1;
+            }
+
+            .section-title {
+                position: relative;
+                z-index: 2;
+            }
+
+            .menu-item {
+                position: relative;
+                z-index: 2;
+                background-color: rgba(0, 0, 0, 0.8);
+            }
+        }
+
+    
+            /* Habilitar zoom con gestos táctiles */
+            .section {
+                touch-action: pan-x pan-y pinch-zoom;
+            }
+    
+            /* Mejorar la legibilidad del texto */
+            .menu-item h3 {
+                font-size: 1.2em;
+                margin-bottom: 10px;
+            }
+    
+            .menu-item p {
+                font-size: 0.9em;
+                line-height: 1.4;
+            }
     </style>
 </head>
 <body>
