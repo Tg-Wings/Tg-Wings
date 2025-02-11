@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TG WINGS - Reservaciones</title>
+    <!-- Agregar el logo como favicon -->
+    <link rel="icon" href="logo/logo.png" type="image/x-icon">
+    <link rel="shortcut icon" href="ruta-del-logo/logo.ico" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        :root {
+            --color-primary: #8B0000;
+            --color-secondary: #1a1a1a;
+            --color-accent: #CD853F;
+            --color-white: #ffffff;
+            --color-gray: #f5f5f5;
+            --shadow-soft: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --shadow-strong: 0 8px 32px rgba(0, 0, 0, 0.3);
+            --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--color-secondary);
+            color: var(--color-white);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            animation: fadeIn 1s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header {
+            background: var(--color-primary);
+            padding: 2rem 0;
+            text-align: center;
+            margin-bottom: 2rem;
+            position: relative;
+            box-shadow: var(--shadow-soft);
+            animation: slideDown 0.8s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-100%);
+            }
+            to {
+                transform: translateY(0);
+            }
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .logo {
+            width: 80px;
+            height: 80px;
+            margin-right: 20px;
+            transition: var(--transition-smooth);
+            animation: rotateLogo 1.2s ease-out;
+        }
+
+        .logo:hover {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        @keyframes rotateLogo {
+            from {
+                transform: rotate(-180deg) scale(0);
+                opacity: 0;
+            }
+            to {
+                transform: rotate(0) scale(1);
+                opacity: 1;
+            }
+        }
+
+        .header-text {
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--color-white);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            animation: glowText 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glowText {
+            from {
+                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            }
+            to {
+                text-shadow: 0 0 10px var(--color-accent),
+                            0 0 20px var(--color-accent),
+                            0 0 30px var(--color-accent);
+            }
+        }
+
+        .header p {
+            color: var(--color-accent);
+            font-style: italic;
+            animation: fadeInUp 0.8s ease-out 0.3s both;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .reservation-form {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: var(--shadow-strong);
+            max-width: 600px;
+            margin: 0 auto 3rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            animation: formAppear 0.8s ease-out;
+            transition: var(--transition-smooth);
+        }
+
+        .reservation-form:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        @keyframes formAppear {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+            position: relative;
+            opacity: 0;
+            animation: slideInRight 0.5s ease-out forwards;
+        }
+
+        .form-group:nth-child(odd) {
+            animation-delay: calc(0.1s * var(--i, 1));
+        }
+
+        .form-group:nth-child(even) {
+            animation-delay: calc(0.15s * var(--i, 1));
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--color-accent);
+            transition: var(--transition-smooth);
+        }
+
+        .form-group:hover label {
+            color: var(--color-white);
+            transform: translateX(5px);
+        }
+
+        .form-group i {
+            margin-right: 8px;
+            transition: var(--transition-smooth);
+        }
+
+        .form-group:hover i {
+            transform: scale(1.2);
+            color: var(--color-accent);
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--color-white);
+            transition: var(--transition-smooth);
+            font-size: 1rem;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--color-accent);
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(205, 133, 63, 0.2);
+        }
+
+        /* Estilo específico para el select y sus opciones */
+        .form-group.select-group {
+            position: relative;
+        }
+
+        .form-group select {
+            cursor: pointer;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            padding-right: 30px;
+        }
+
+        .form-group select option {
+            background: var(--color-secondary);
+            color: var(--color-white);
+            padding: 12px;
+        }
+
+        .form-group.select-group::after {
+            content: '\f107';
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+            position: absolute;
+            right: 12px;
+            bottom: 12px;
+            color: var(--color-accent);
+            pointer-events: none;
+            transition: var(--transition-smooth);
+        }
+
+        .form-group.select-group:hover::after {
+            transform: translateY(3px);
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 1rem;
+            background: var(--color-accent);
+            color: var(--color-white);
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: var(--shadow-soft);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .submit-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s ease-out, height 0.6s ease-out;
+        }
+
+        .submit-btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .submit-btn:hover {
+            background: var(--color-primary);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .submit-btn:active {
+            transform: translateY(1px);
+        }
+
+        .info-section {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2rem;
+            border-radius: 15px;
+            margin-top: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: var(--shadow-strong);
+            animation: slideUp 0.8s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .info-card {
+            padding: 1.5rem;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            transition: var(--transition-smooth);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            animation: cardAppear 0.5s ease-out both;
+        }
+
+        .info-card:nth-child(1) { animation-delay: 0.2s; }
+        .info-card:nth-child(2) { animation-delay: 0.4s; }
+        .info-card:nth-child(3) { animation-delay: 0.6s; }
+
+        @keyframes cardAppear {
+            from {
+                opacity: 0;
+                transform: scale(0.8) translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .info-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: var(--shadow-soft);
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .info-card h3 {
+            color: var(--color-accent);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: var(--transition-smooth);
+        }
+
+        .info-card:hover h3 {
+            transform: translateX(5px);
+        }
+
+        .info-card p {
+            margin-bottom: 0.5rem;
+            transition: var(--transition-smooth);
+        }
+
+        .info-card:hover p {
+            transform: translateX(3px);
+        }
+
+        .info-card a {
+            color: var(--color-accent);
+            text-decoration: none;
+            transition: var(--transition-smooth);
+            position: relative;
+        }
+
+        .info-card a::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--color-white);
+            transition: var(--transition-smooth);
+        }
+
+        .info-card a:hover {
+            color: var(--color-white);
+        }
+
+        .info-card a:hover::after {
+            width: 100%;
+        }
+
+        .success-message {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--color-accent);
+            color: var(--color-white);
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            transform: translateX(200%);
+            transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            box-shadow: var(--shadow-soft);
+            z-index: 1000;
+        }
+
+        .success-message.show {
+            transform: translateX(0);
+            animation: shake 0.5s ease-in-out;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .logo {
+                margin-right: 0;
+                margin-bottom: 1rem;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .reservation-form {
+                padding: 1.5rem;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <img src="logo/logo.png" alt="TG Wings Logo" class="logo">
+            <div class="header-text">
+                <h1>The Great Wings - Fast Food</h1>
+                <p>Una experiencia culinaria única</p>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <form class="reservation-form" id="reservationForm">
+            <div class="form-group" style="--i:1">
+                <label><i class="fas fa-user"></i> Nombre Completo</label>
+                <input type="text" required placeholder="Ingrese su nombre completo">
+            </div>
+            <div class="form-group" style="--i:2">
+                <label><i class="fas fa-envelope"></i> Correo Electrónico</label>
+                <input type="email" required placeholder="ejemplo@correo.com">
+            </div>
+            <div class="form-group" style="--i:3">
+                <label><i class="fas fa-phone"></i> Teléfono</label>
+                <input type="tel" required placeholder="Ingrese su número de teléfono">
+            </div>
+            <div class="form-group" style="--i:4">
+                <label><i class="fas fa-calendar"></i> Fecha</label>
+                <input type="date" required>
+            </div>
+            <div class="form-group" style="--i:5">
+                <label><i class="fas fa-clock"></i> Hora</label>
+                <input type="time" required>
+            </div>
+            <div class="form-group select-group" style="--i:6">
+                <label><i class="fas fa-users"></i> Número de Personas</label>
+                <select required>
+                    <option value="">Seleccione...</option>
+                    <option value="1">1 Persona</option>
+                    <option value="2">2 Personas</option>
+                    <option value="3">3 Personas</option>
+                    <option value="4">4 Personas</option>
+                    <option value="5">5 Personas</option>
+                    <option value="6+">6 o más</option>
+                </select>
+            </div>
+            <button type="submit" class="submit-btn">
+                <i class="fas fa-check"></i> Reservar Mesa
+            </button>
+        </form>
+
+        <div class="info-section">
+            <div class="info-grid">
+                <div class="info-card">
+                    <h3><i class="fas fa-clock"></i> Horario</h3>
+                    <p>Lunes a Viernes: 12:00 - 23:00</p>
+                    <p>Sábados y Domingos: 13:00 - 00:00</p>
+                </div>
+                <div class="info-card">
+                    <h3><i class="fas fa-map-marker-alt"></i> Ubicación</h3>
+                    <p>Av. Jose Carlos Mariategui, San Gregorio, Ate, Peru</p>
+                </div>
+                <div class="info-card">
+                    <h3><i class="fas fa-phone"></i> Contacto</h3>
+                    <p>Tel: +51 968 505 523</p>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="success-message" id="successMessage">
+        ¡Reservación enviada con éxito!
+    </div>
+    
+    <!-- Botón de inicio -->
+    <div class="button-container">
+        <a href="index.html" class="inicio-button">INICIO</a>
+    </div>
+    
+    <style>
+        .button-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+    
+        .inicio-button {
+            display: inline-block;
+            background-color: #b71c1c;
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            font-size: 18px;
+            border-radius: 5px;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+    
+        .inicio-button:hover {
+            background-color: #d32f2f;
+            transform: scale(1.1);
+        }
+    </style>
+    
+
+    <script>
+        document.getElementById('reservationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Recopilar datos del formulario
+            const formData = new FormData(this);
+            const phoneNumber = '934498803';
+            
+            // Crear mensaje para WhatsApp con etiquetas en español
+            let message = '*🔥 Nueva Reservación 🔥*\n\n';
+            
+            // Mapeo de nombres de campos en español
+            const fieldNames = {
+                'name': '👤 Nombre',
+                'email': '📧 Correo',
+                'tel': '📱 Teléfono',
+                'date': '📅 Fecha',
+                'time': '⏰ Hora',
+                'select': '👥 Personas'
+            };
+            
+            // Construir el mensaje con los datos del formulario
+            const inputs = this.querySelectorAll('input, select');
+            inputs.forEach(input => {
+                const value = input.value.trim();
+                if (value) {
+                    const fieldName = fieldNames[input.type] || fieldNames[input.tagName.toLowerCase()] || input.name;
+                    message += `${fieldName}: ${value}\n`;
+                }
+            });
+            
+            // Agregar pie de mensaje
+            message += '\n💫 ¡Gracias por su reservación! 💫';
+            
+            // Mostrar mensaje de éxito
+            const successMessage = document.getElementById('successMessage');
+            successMessage.classList.add('show');
+            
+            // Ocultar mensaje después de 3 segundos
+            setTimeout(() => {
+                successMessage.classList.remove('show');
+            }, 3000);
+            
+            // Abrir WhatsApp con el mensaje formateado
+            const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+            window.open(whatsappUrl, '_blank');
+            
+            // Limpiar formulario
+            this.reset();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Califícanos</title>
+    <!-- Agregar el logo como favicon -->
+    <link rel="icon" href="logo/logo.png" type="image/x-icon">
+    <link rel="shortcut icon" href="ruta-del-logo/logo.ico" type="image/x-icon">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #1a1a1a;
+            color: white;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        .title {
+            font-size: 2em;
+            font-weight: bold;
+            color: #b71c1c;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        .rating {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            direction: rtl;
+        }
+
+        .rating input {
+            display: none;
+        }
+
+        .rating label {
+            font-size: 40px;
+            color: #444;
+            cursor: pointer;
+            transition: color 0.3s, transform 0.3s;
+        }
+
+        .rating label:hover,
+        .rating label:hover ~ label,
+        .rating input:checked ~ label {
+            color: #ffd700;
+            transform: scale(1.2);
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+            font-size: 1em;
+            outline: none;
+        }
+
+        textarea {
+            resize: none;
+            height: 100px;
+        }
+
+        button {
+            background-color: #b71c1c;
+            color: white;
+            font-size: 1.2em;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.2s;
+        }
+
+        button:hover {
+            background-color: #d32f2f;
+            transform: scale(1.05);
+        }
+
+        .home-button {
+            margin-top: 20px;
+            background-color: #444;
+        }
+
+        .home-button:hover {
+            background-color: #666;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="title">Califícanos</div>
+
+        <div class="rating">
+            <input type="radio" name="rating" id="star5" value="5"><label for="star5">★</label>
+            <input type="radio" name="rating" id="star4" value="4"><label for="star4">★</label>
+            <input type="radio" name="rating" id="star3" value="3"><label for="star3">★</label>
+            <input type="radio" name="rating" id="star2" value="2"><label for="star2">★</label>
+            <input type="radio" name="rating" id="star1" value="1"><label for="star1">★</label>
+        </div>
+
+        <form id="feedbackForm">
+            <input type="text" id="nombre" placeholder="Nombre" required>
+            <input type="tel" id="telefono" placeholder="Teléfono" required>
+            <textarea id="comentario" placeholder="Escribe tu comentario..." required></textarea>
+            <button type="submit">Enviar</button>
+        </form>
+        
+        <button class="home-button" onclick="window.location.href='index.html'">INICIO</button>
+    </div>
+
+    <script>
+        document.getElementById("feedbackForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            let nombre = document.getElementById("nombre").value;
+            let telefono = document.getElementById("telefono").value;
+            let comentario = document.getElementById("comentario").value;
+            let calificacion = document.querySelector('input[name="rating"]:checked');
+
+            if (!calificacion) {
+                alert("Por favor, selecciona una calificación.");
+                return;
+            }
+
+            let mensaje = `Hola! Me gustaría dejar una calificación.%0A Calificación: ${calificacion.value} estrellas%0A Nombre: ${nombre}%0A Teléfono: ${telefono}%0A Comentario: ${comentario}`;
+            let numeroWhatsApp = "51934498803";
+            let url = `https://wa.me/${numeroWhatsApp}?text=${mensaje}`;
+            window.open(url, "_blank");
+        });
+    </script>
+
+</body>
+</html>
